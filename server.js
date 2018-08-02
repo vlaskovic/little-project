@@ -16,17 +16,54 @@ app.get('/scrape', function(req, res) {
 
       var result = [];
       var resultSet = [];
-      var metadataSet = [];
 
       $('#js-dm-live-search-results div').each(function(i, elm) {
         var data = $(this);
 
+        var link = data
+          .children()
+          .first()
+          .children()
+          .first()
+          .attr('href');
+
         var title = data
+          .children()
+          .first()
+          .text();
+
+        var description = data
           .children()
           .last()
           .text();
 
-        resultSet.push({ title: title });
+        var importantMetadataSet = [];
+
+        data
+          .children('ul')
+          .filter('.search-result-important-metadata')
+          .children()
+          .each(function(j, elmnt) {
+            importantMetadataSet.push({ importantMetadata: $(this).text() });
+          });
+
+        var metadataSet = [];
+
+        data
+          .children('ul')
+          .filter('.search-result-metadata')
+          .children()
+          .each(function(k, elmn) {
+            metadataSet.push({ metadata: $(this).text() });
+          });
+
+        resultSet.push({
+          description: description,
+          title: title,
+          link: link,
+          importantMetadataSet: importantMetadataSet,
+          metadataSet: metadataSet,
+        });
       });
     }
 
