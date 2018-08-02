@@ -32,10 +32,14 @@ app.get('/scrape', function(req, res) {
           .first()
           .text();
 
+        title = sanitizeData(title);
+
         var description = data
           .children()
           .last()
           .text();
+
+        description = sanitizeData(description);
 
         var importantMetadataSet = [];
 
@@ -44,7 +48,9 @@ app.get('/scrape', function(req, res) {
           .filter('.search-result-important-metadata')
           .children()
           .each(function(j, elmnt) {
-            importantMetadataSet.push({ importantMetadata: $(this).text() });
+            importantMetadata = $(this).text();
+            importantMetadata = sanitizeData(importantMetadata);
+            importantMetadataSet.push({ importantMetadata: importantMetadata });
           });
 
         var metadataSet = [];
@@ -54,7 +60,9 @@ app.get('/scrape', function(req, res) {
           .filter('.search-result-metadata')
           .children()
           .each(function(k, elmn) {
-            metadataSet.push({ metadata: $(this).text() });
+            metadata = $(this).text();
+            metadata = sanitizeData(metadata);
+            metadataSet.push({ metadata: metadata });
           });
 
         resultSet.push({
@@ -79,6 +87,11 @@ app.get('/scrape', function(req, res) {
     res.send('Check your console!');
   });
 });
+
+function sanitizeData(data) {
+  var santized = data.replace(/\n/g, '').trim();
+  return santized;
+}
 
 app.listen('8081');
 
