@@ -19,12 +19,15 @@ app.get('/scrape', function(req, res) {
       $('#js-dm-live-search-results div').each(function(i, elm) {
         var data = $(this);
 
-        var link = data
+        var init = data
           .children()
           .first()
           .children()
           .first()
           .attr('href');
+		  
+		var link = "https://www.digitalmarketplace.service.gov.uk" + init;
+        
 
         var title = data
           .children()
@@ -71,19 +74,58 @@ app.get('/scrape', function(req, res) {
           importantMetadataSet: importantMetadataSet,
           metadataSet: metadataSet,
         });
+		
+		
+
       });
     }
 
     fs.writeFile('output.json', JSON.stringify(resultSet, null, 4), function(
       err
     ) {
+		
+		
+    const emailPassword = process.env.GMAIL_PASSWORD;
+		
+	var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'vlaskovik@gmail.com',
+    pass: emailPassword
+  }
+});
+
+var mailOptions = {
+  from: 'vlaskovik@gmail.com',
+  to: 'vlaskovik@gmail.com',
+  subject: 'digitalmarketplace.service.gov.uk - google!',
+        body: 'mail content...',
+        attachments: [{'filename': 'output.json', 'content': JSON.stringify(resultSet, null, 4)}],
+		text: JSON.stringify(resultSet, null, 4)
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
       console.log(
         'File successfully written! - Check your project directory for the output.json file'
       );
     });
+	
+
+	
 
     // Finally, we'll just send out a message to the browser reminding you that this app does not have a UI.
     res.send('Check your console!');
+	
+	
   });
 });
 

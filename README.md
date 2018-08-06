@@ -11,3 +11,6 @@ https://www.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists/o
 and then send an email to people with the results ?
 
 Needs to be 100% automated
+
+
+set GMAIL_PASSWORD=mypassword &&node server.js
