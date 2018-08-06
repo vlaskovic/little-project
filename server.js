@@ -6,7 +6,7 @@ var app = express();
 
 app.get('/scrape', function(req, res) {
   url =
-    'https://www.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists/opportunities?q=java';
+    'https://www.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists/opportunities?q=google';
 
   request(url, function(error, response, html) {
     if (!error) {
