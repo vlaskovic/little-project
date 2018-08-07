@@ -1,6 +1,6 @@
 runtime: node
 runtimeVersion:8
-application:my-express-app
+application:little-project
 env:
   - name: NODE_ENV
     value: production

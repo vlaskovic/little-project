@@ -84,16 +84,17 @@ app.get('/scrape', function(req, res) {
       err
     ) {
 		
+ const emailPassword = process.env.GMAIL_PASSWORD;
 		
 	var nodemailer = require('nodemailer');
-
-var transporter = nodemailer.createTransport({
+ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'vlaskovik@gmail.com',
-    pass: 'Vlashkovich'
+    pass: emailPassword
   }
 });
+
 
 var mailOptions = {
   from: 'vlaskovik@gmail.com',
