@@ -6,7 +6,7 @@ var app = express();
 
 app.get('/scrape', function(req, res) {
   url =
-    'https://www.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists/opportunities?q=google';
+    'https://www.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists/opportunities?q=google&statusOpenClosed=open';
  request(url, function(error, response, html) {
     if (!error) {
       var $ = cheerio.load(html);
@@ -85,15 +85,13 @@ app.get('/scrape', function(req, res) {
     ) {
 		
 		
-    const emailPassword = process.env.GMAIL_PASSWORD;
-		
 	var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'vlaskovik@gmail.com',
-    pass: emailPassword
+    pass: 'Vlashkovich'
   }
 });
 
